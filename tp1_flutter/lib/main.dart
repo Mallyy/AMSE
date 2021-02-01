@@ -1,5 +1,47 @@
-
 import 'package:flutter/material.dart';
+
+class MediaModel {
+  String imageUrl;
+  String title;
+  String description;
+
+  // Constructor
+  MediaModel({this.imageUrl, this.title, this.description});
+}
+
+final series = [
+  MediaModel(
+    imageUrl:
+    'https://m.media-amazon.com/images/M/MV5BNzRlNGUzMmEtYTg0Ni00N2U2LTg4YWEtNDdlNmMwYjBlZDQ0XkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_FMjpg_UY864_.jpg',
+    title: 'Lupin',
+    description: "Série Netflix ...",
+  ),
+  MediaModel(
+    imageUrl:
+    'https://upload.wikimedia.org/wikipedia/fr/6/67/StrangerThingslogo.png',
+    title: 'Stranger Things',
+    description: "Série Netflix ...",
+  ),
+  MediaModel(
+    imageUrl:
+    'https://m.media-amazon.com/images/M/MV5BNGEyOGJiNWEtMTgwMi00ODU4LTlkMjItZWI4NjFmMzgxZGY2XkEyXkFqcGdeQXVyNjcyNjcyMzQ@._V1_FMjpg_UX675_.jpg',
+    title: 'The Boys',
+    description: "Série Amazon ...",
+  ),
+];
+
+final bds = [
+  MediaModel(
+    imageUrl: 'images/bds/aldebaran.jpg',
+    title: 'Aldébaran',
+    description: "Les mondes d'Aldébaran ...",
+  ),
+  MediaModel(
+    imageUrl: 'images/bds/le_tueur.jpg',
+    title: 'Le tueur',
+    description: "Bd cynique sur le monde...",
+  ),
+];
 
 void main() => runApp(MyApp());
 
