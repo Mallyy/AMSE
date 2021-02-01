@@ -42,6 +42,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       'Index 2: Media 2',
       style: optionStyle,
     ),
+    Text(
+      'A propos',
+      style: optionStyle,
+    )
   ];
 
   void _onItemTapped(int index) {
@@ -60,18 +64,23 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         child: _widgetOptions.elementAt(_selectedIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        type: BottomNavigationBarType.fixed,
+        items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.business),
-            label: 'Business',
+            label: 'Media 1',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.school),
-            label: 'School',
+            label: 'Media 2',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.movie_outlined),
+            label: 'a propos',
           ),
         ],
         currentIndex: _selectedIndex,
