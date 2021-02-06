@@ -4,7 +4,7 @@ class MediaModel {
   String imageUrl;
   String title;
   String description;
-
+  bool isFavorite = false;
   // Constructor
   MediaModel({this.imageUrl, this.title, this.description});
 }
@@ -174,12 +174,15 @@ Widget getListView( List<MediaModel> list) {
 
   var listView = ListView.builder(
       itemBuilder: (context, index) {
-
         return ListTile(
           leading: Image(
             image: NetworkImage(list[index].imageUrl),
           ),
           title: Text(list[index].title),
+          trailing: Icon(
+              Icons.favorite,
+              color: getColorFavorite(list[index]),
+          ),
           onTap: () {
             debugPrint('tapped was tapped');
           },
@@ -188,4 +191,11 @@ Widget getListView( List<MediaModel> list) {
   );
 
   return listView;
+}
+
+Color getColorFavorite (MediaModel media){
+  if (media.isFavorite){
+    return Colors.redAccent;
+  }
+  else return Colors.black12;
 }
