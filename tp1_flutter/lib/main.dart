@@ -43,6 +43,49 @@ final bds = [
   ),
 ];
 
+List <Widget> getMediaList(){
+
+}
+
+Widget list = Container(
+  padding: const EdgeInsets.all(32),
+  child: Row(
+    children: [
+      const Image(
+        image: NetworkImage('https://m.media-amazon.com/images/M/MV5BNzRlNGUzMmEtYTg0Ni00N2U2LTg4YWEtNDdlNmMwYjBlZDQ0XkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_FMjpg_UY864_.jpg'),
+      ),
+      Expanded(
+        /*1*/
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            /*2*/
+            Icon(
+              Icons.star,
+              color: Colors.yellow[400],
+            ),
+            Container(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: Text(
+                'Lupin',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Text(
+              'Série Netflix ...',
+              style: TextStyle(
+                color: Colors.grey[500],
+              ),
+            ),
+          ],
+        ),
+      ),
+    ],
+  ),
+);
+
 void main() => runApp(MyApp());
 
 /// This is the main application widget.
@@ -71,19 +114,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
+  static List<Widget> _widgetOptions = <Widget>[
     Text(
       'Index 0: Home',
       style: optionStyle,
     ),
-    Text(
-      'Index 1: Media 1',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 2: Media 2',
-      style: optionStyle,
-    ),
+    getListView(series),
+    getListView(bds),
     Text(
       'A propos',
       style: optionStyle,
@@ -131,4 +168,24 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       ),
     );
   }
+}
+
+Widget getListView( List<MediaModel> list) {
+
+  var listView = ListView.builder(
+      itemBuilder: (context, index) {
+
+        return ListTile(
+          leading: Image(
+            image: NetworkImage(list[index].imageUrl),
+          ),
+          title: Text(list[index].title),
+          onTap: () {
+            debugPrint('tapped was tapped');
+          },
+        );
+      }
+  );
+
+  return listView;
 }
