@@ -43,10 +43,6 @@ final bds = [
   ),
 ];
 
-List <Widget> getMediaList(){
-
-}
-
 Widget list = Container(
   padding: const EdgeInsets.all(32),
   child: Row(
@@ -173,6 +169,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 Widget getListView( List<MediaModel> list) {
 
   var listView = ListView.builder(
+    itemCount: list.length,
       itemBuilder: (context, index) {
         return ListTile(
           leading: Image(
