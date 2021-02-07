@@ -43,44 +43,55 @@ final bds = [
   ),
 ];
 
-Widget list = Container(
-  padding: const EdgeInsets.all(32),
-  child: Row(
-    children: [
-      const Image(
-        image: NetworkImage('https://m.media-amazon.com/images/M/MV5BNzRlNGUzMmEtYTg0Ni00N2U2LTg4YWEtNDdlNmMwYjBlZDQ0XkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_FMjpg_UY864_.jpg'),
-      ),
-      Expanded(
-        /*1*/
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+Widget details(MediaModel media) {
+  Color _aColor = getColorFavorite(media);
+  return Container(
+    padding: const EdgeInsets.fromLTRB(7,32,7,7),
+    child: Column(
+      verticalDirection: VerticalDirection.down,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            /*2*/
-            Icon(
-              Icons.star,
-              color: Colors.yellow[400],
+            Image(
+              image: NetworkImage( media.imageUrl,
+                scale: 4,
+              ),
+            ),
+
+            Container(
+              padding: const EdgeInsets.only(left: 7, bottom: 10),
+              child: IconButton(
+                icon: Icon(Icons.favorite),
+                color: _aColor,
+                onPressed: () {
+
+                  media.isFavorite = !media.isFavorite;
+                  _aColor = getColorFavorite(media);
+                },
+              ),
             ),
             Container(
-              padding: const EdgeInsets.only(bottom: 8),
-              child: Text(
-                'Lupin',
+              padding: const EdgeInsets.only(left: 7),
+                child: Text(media.title,
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 40
+                  ),
                 ),
               ),
-            ),
-            Text(
-              'Série Netflix ...',
-              style: TextStyle(
-                color: Colors.grey[500],
-              ),
-            ),
           ],
         ),
-      ),
-    ],
-  ),
-);
+        Expanded(
+          child:
+          Text(
+            media.description,
+          ),
+        ),
+      ],
+    ),
+  );
+}
 
 void main() => runApp(MyApp());
 
@@ -167,10 +178,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 }
 
 Widget getListView( List<MediaModel> list) {
-
   var listView = ListView.builder(
     itemCount: list.length,
       itemBuilder: (context, index) {
+        Color _aColor = getColorFavorite(list[index]);
         return ListTile(
           leading: Image(
             image: NetworkImage(list[index].imageUrl),
@@ -178,10 +189,16 @@ Widget getListView( List<MediaModel> list) {
           title: Text(list[index].title),
           trailing: Icon(
               Icons.favorite,
-              color: getColorFavorite(list[index]),
+              color: _aColor,
           ),
           onTap: () {
-            debugPrint('tapped was tapped');
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => DetailScreen(media: list[index]),
+              ),
+            );
+            _aColor = getColorFavorite(list[index]);
           },
         );
       }
@@ -195,4 +212,26 @@ Color getColorFavorite (MediaModel media){
     return Colors.redAccent;
   }
   else return Colors.black12;
+}
+
+class DetailScreen extends StatelessWidget {
+  // Declare a field that holds the Todo.
+  final MediaModel media;
+
+  // In the constructor, require a Todo.
+  DetailScreen({Key key, @required this.media}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+     return MaterialApp(
+       title: 'Flutter layout demo',
+        home: Scaffold(
+          body: Row(
+            children: [
+              details(media),
+            ],
+          ),
+        ),
+     );
+  }
 }
