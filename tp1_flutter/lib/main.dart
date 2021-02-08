@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter/src/painting/border_radius.dart';
+//import 'package:flutter/src/painting/border_radius.dart';
 
 class MediaModel {
   String imageUrl;
@@ -121,17 +120,20 @@ Widget details(MediaModel media, BuildContext context) {
                             },
                           ),
                         ),
-                        FittedBox(
-                            fit: BoxFit.scaleDown,
-                              child: Text(media.title, style: TextStyle( fontWeight: FontWeight.bold, fontSize: 40), maxLines: 1,overflow: TextOverflow.ellipsis,)
-                          ),
                       ],
+                    ),
+                  ),
+                  Container(
+                    child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(media.title, style: TextStyle( fontWeight: FontWeight.bold, fontSize: 40), maxLines: 1,overflow: TextOverflow.ellipsis,)
                     ),
                   ),
                   Expanded(
                     // A flexible child that will grow to fit the viewport but
                     // still be at least as big as necessary to fit its contents.
                     child: Container(
+                      padding: const EdgeInsets.all(20),
                       height: 120.0,
                       alignment: Alignment.center,
                       child: Text(media.description),
@@ -273,108 +275,156 @@ Widget homeGridView( List<MediaModel> listAnime,List<MediaModel> listManga ){
     mainAxisSpacing: 50,
     crossAxisCount: 2,
     children: <Widget>[
-      Container(
-        padding: const EdgeInsets.all(8),
-        child: Align(
-          alignment: Alignment.center,
-          child: RichText(
-            text: TextSpan(
-              text: listAnime.length.toString(),
-              style: TextStyle(fontSize: 70, ),
-              children: <TextSpan>[
-                TextSpan(text: '\nanimes dans ma liste', style: TextStyle(fontSize: 15, color: Colors.black54)),
-              ],
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ),
-        //color: Colors.teal[100],
-        decoration: BoxDecoration(color: Color.fromRGBO(244, 184, 183, 1) ,borderRadius: BorderRadius.all(Radius.circular(40.0))),
-      ),
-      Container(
-        padding: const EdgeInsets.all(8),
-        child: Align(
-          alignment: Alignment.center,
-          child: RichText(
-            text: TextSpan(
-              text: listManga.length.toString(),
-              style: TextStyle(fontSize: 70, ),
-              children: <TextSpan>[
-                TextSpan(text: '\nmangas dans ma liste', style: TextStyle(fontSize: 15, color: Colors.black54)),
-              ],
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ),
-        decoration: BoxDecoration(color: Color.fromRGBO(244, 184, 183, 1) ,borderRadius: BorderRadius.all(Radius.circular(40.0))),
-      ),
-      Container(
-        padding: const EdgeInsets.all(8),
-        child: Align(
-          alignment: Alignment.center,
-          child: RichText(
-            text: TextSpan(
-              text: '?',
-              style: TextStyle(fontSize: 70, ),
-              children: <TextSpan>[
-                TextSpan(text: '\nanimes likés', style: TextStyle(fontSize: 15, color: Colors.black54)),
-              ],
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ),
-        decoration: BoxDecoration(color: Color.fromRGBO(244, 184, 183, 1) ,borderRadius: BorderRadius.all(Radius.circular(40.0))),
-      ),
-      Container(
-        padding: const EdgeInsets.all(8),
-        child: Align(
-          alignment: Alignment.center,
-          child: RichText(
-            text: TextSpan(
-              text: '?',
-              style: TextStyle(fontSize: 70, ),
-              children: <TextSpan>[
-                TextSpan(text: '\nmangas likés', style: TextStyle(fontSize: 15, color: Colors.black54)),
-              ],
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ),
-        decoration: BoxDecoration(color: Color.fromRGBO(244, 184, 183, 1),borderRadius: BorderRadius.all(Radius.circular(40.0))),
-      ),
-      Container(
-        padding: const EdgeInsets.all(8),
-        child: Align(
-          alignment: Alignment.center,
+      Material(
+        borderRadius: BorderRadius.all(Radius.circular(40.0)),
+        color: Color.fromRGBO(244, 184, 183, 1),
+        child: InkResponse(
+          highlightShape: BoxShape.rectangle,
+          borderRadius: BorderRadius.all(Radius.circular(40.0)),
+          highlightColor: Color.fromRGBO(244, 184, 13, 0.2),
+          onTap: (){
+          } ,
+          child: Align(
+            alignment: Alignment.center,
             child: RichText(
               text: TextSpan(
-                text: "??",
+                text: listAnime.length.toString(),
                 style: TextStyle(fontSize: 70, ),
                 children: <TextSpan>[
-                  TextSpan(text: '?', style: TextStyle(fontSize: 15, color: Colors.black54)),
+                  TextSpan(text: '\nanimes dans ma liste', style: TextStyle(fontSize: 15, color: Colors.black54)),
                 ],
               ),
               textAlign: TextAlign.center,
             ),
-        ),
-        decoration: BoxDecoration(color: Color.fromRGBO(244, 184, 183, 1) ,borderRadius: BorderRadius.all(Radius.circular(40.0))),
-      ),
-      Container(
-        padding: const EdgeInsets.all(8),
-        child: Align(
-          alignment: Alignment.center,
-          child: RichText(
-            text: TextSpan(
-              text: '??',
-              style: TextStyle(fontSize: 70, ),
-              children: <TextSpan>[
-                TextSpan(text: '\n?', style: TextStyle(fontSize: 15, color: Colors.black54)),
-              ],
-            ),
-            textAlign: TextAlign.center,
           ),
+          //color: Colors.teal[100],
         ),
-        decoration: BoxDecoration(color: Color.fromRGBO(244, 184, 183, 1),borderRadius: BorderRadius.all(Radius.circular(40.0))),
+      ),
+
+      Material(
+        borderRadius: BorderRadius.all(Radius.circular(40.0)),
+        color: Color.fromRGBO(244, 184, 183, 1),
+        child: InkResponse(
+          highlightShape: BoxShape.rectangle,
+          borderRadius: BorderRadius.all(Radius.circular(40.0)),
+          highlightColor: Color.fromRGBO(244, 184, 13, 0.2),
+          onTap: (){
+          } ,
+          child: Align(
+            alignment: Alignment.center,
+            child: RichText(
+              text: TextSpan(
+                text: listManga.length.toString(),
+                style: TextStyle(fontSize: 70, ),
+                children: <TextSpan>[
+                  TextSpan(text: '\nmangas dans ma liste', style: TextStyle(fontSize: 15, color: Colors.black54)),
+                ],
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          //color: Colors.teal[100],
+        ),
+      ),
+      Material(
+        borderRadius: BorderRadius.all(Radius.circular(40.0)),
+        color: Color.fromRGBO(244, 184, 183, 1),
+        child: InkResponse(
+          highlightShape: BoxShape.rectangle,
+          borderRadius: BorderRadius.all(Radius.circular(40.0)),
+          highlightColor: Color.fromRGBO(244, 184, 13, 0.2),
+          onTap: (){
+          } ,
+          child: Align(
+            alignment: Alignment.center,
+            child: RichText(
+              text: TextSpan(
+                text: '??',
+                style: TextStyle(fontSize: 70, ),
+                children: <TextSpan>[
+                  TextSpan(text: '\nanimés likés', style: TextStyle(fontSize: 15, color: Colors.black54)),
+                ],
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          //color: Colors.teal[100],
+        ),
+      ),
+      Material(
+        borderRadius: BorderRadius.all(Radius.circular(40.0)),
+        color: Color.fromRGBO(244, 184, 183, 1),
+        child: InkResponse(
+          highlightShape: BoxShape.rectangle,
+          borderRadius: BorderRadius.all(Radius.circular(40.0)),
+          highlightColor: Color.fromRGBO(244, 184, 13, 0.2),
+          onTap: (){
+          } ,
+          child: Align(
+            alignment: Alignment.center,
+            child: RichText(
+              text: TextSpan(
+                text: '??',
+                style: TextStyle(fontSize: 70, ),
+                children: <TextSpan>[
+                  TextSpan(text: '\nmangas likés', style: TextStyle(fontSize: 15, color: Colors.black54)),
+                ],
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          //color: Colors.teal[100],
+        ),
+      ),
+      Material(
+        borderRadius: BorderRadius.all(Radius.circular(40.0)),
+        color: Color.fromRGBO(244, 184, 183, 1),
+        child: InkResponse(
+          highlightShape: BoxShape.rectangle,
+          borderRadius: BorderRadius.all(Radius.circular(40.0)),
+          highlightColor: Color.fromRGBO(244, 184, 13, 0.2),
+          onTap: (){
+          } ,
+          child: Align(
+            alignment: Alignment.center,
+            child: RichText(
+              text: TextSpan(
+                text: '??',
+                style: TextStyle(fontSize: 70, ),
+                children: <TextSpan>[
+                  TextSpan(text: '\n??', style: TextStyle(fontSize: 15, color: Colors.black54)),
+                ],
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          //color: Colors.teal[100],
+        ),
+      ),
+      Material(
+        borderRadius: BorderRadius.all(Radius.circular(40.0)),
+        color: Color.fromRGBO(244, 184, 183, 1),
+        child: InkResponse(
+          highlightShape: BoxShape.rectangle,
+          borderRadius: BorderRadius.all(Radius.circular(40.0)),
+          highlightColor: Color.fromRGBO(244, 184, 13, 0.2),
+          onTap: (){
+          } ,
+          child: Align(
+            alignment: Alignment.center,
+            child: RichText(
+              text: TextSpan(
+                text: '??',
+                style: TextStyle(fontSize: 70, ),
+                children: <TextSpan>[
+                  TextSpan(text: '\n??', style: TextStyle(fontSize: 15, color: Colors.black54)),
+                ],
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          //color: Colors.teal[100],
+        ),
       ),
     ],
   );
