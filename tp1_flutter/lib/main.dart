@@ -70,8 +70,8 @@ final bds = [
   ),
   MediaModel(
     imageUrl: 'https://s4.anilist.co/file/anilistcdn/media/manga/cover/large/bx86742-TgJ4ulvfId3y.png',
-    title: 'Children of the whales',
-    description: "Chakuro is the archivist for the Mud Whale,\n diligently chronicling the lives and deaths of his people."
+    title: 'Children of the Whale',
+    description: "Chakuro is the archivist for the Mud Whale, diligently chronicling the lives and deaths of his people. As one of the short-lived thymia wielders, he knows his time is limited and is determined to leave a better record than his predecessors. But the steady pace of their isolated existence on the Mud Whale is abruptly shattered when a scouting party discovers a mysterious young girl who seems to know more about their home than they do…"
   ),
   MediaModel(
     imageUrl: 'https://s4.anilist.co/file/anilistcdn/media/manga/cover/large/nx107237-97GTv95HyWHv.jpg',
@@ -253,13 +253,13 @@ Widget getListView( List<MediaModel> list) {
               color: _aColor,
           ),
           onTap: () {
+            _aColor = getColorFavorite(list[index]);
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => DetailScreen(media: list[index]),
               ),
             );
-            _aColor = getColorFavorite(list[index]);
           },
         );
       }
@@ -282,7 +282,7 @@ Widget homeGridView( List<MediaModel> listAnime,List<MediaModel> listManga ){
           highlightShape: BoxShape.rectangle,
           borderRadius: BorderRadius.all(Radius.circular(40.0)),
           highlightColor: Color.fromRGBO(244, 184, 13, 0.2),
-          onTap: (){
+          onTap: (){          // a laisser trigger le highkight au toucher
           } ,
           child: Align(
             alignment: Alignment.center,
