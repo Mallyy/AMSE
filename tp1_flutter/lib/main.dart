@@ -1,5 +1,7 @@
+//import 'dart:html';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 //import 'package:flutter/src/painting/border_radius.dart';
 
 class MediaModel {
@@ -85,6 +87,8 @@ final bds = [
   ),
 ];
 
+final List<MediaModel> favorites = [];
+
 Widget details(MediaModel media, BuildContext context) {
   Color _aColor = getColorFavorite(media);
   return DefaultTextStyle(
@@ -117,6 +121,7 @@ Widget details(MediaModel media, BuildContext context) {
                             onPressed: () {
                               media.isFavorite = !media.isFavorite;
                               _aColor = getColorFavorite(media);
+                              getListOfFavorite(series, bds);
                             },
                           ),
                         ),
@@ -179,12 +184,13 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
   static const TextStyle optionStyle =
   TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static List<Widget> _widgetOptions = <Widget>[
+  List<Widget> _widgetOptions = <Widget>[
     homeGridView(series, bds),
     getListView(series),
     getListView(bds),
+    getListView(favorites),
     Text(
-      'A propos',
+      'A Propos',
       style: optionStyle,
     )
   ];
@@ -216,15 +222,19 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.screen_lock_landscape),
-            label: 'Anime',
+            label: 'Animés',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.book),
-          label: 'Manga',
+          label: 'Mangas',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: 'Favoris',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.movie_outlined),
-            label: 'a propos',
+            label: 'A Propos',
           ),
         ],
         currentIndex: _selectedIndex,
@@ -237,36 +247,66 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 }
 
 Widget getListView( List<MediaModel> list) {
-  var listView = ListView.builder(
-    itemExtent: 80,
-    itemCount: list.length,
-      itemBuilder: (context, index) {
-        Color _aColor = getColorFavorite(list[index]);
-        return ListTile(
+  var listView;
+  if (list.isNotEmpty){
+    listView = ListView.builder(
+        itemExtent: 80,
+        itemCount: list.length,
+        itemBuilder: (context, index) {
+          Color _aColor = getColorFavorite(list[index]);
+          return ListTile(
 
-          leading: Image(
-            image: NetworkImage(list[index].imageUrl),
-          ),
-          title: Text(list[index].title),
-          trailing: Icon(
+            leading: Image(
+              image: NetworkImage(list[index].imageUrl),
+            ),
+            title: Text(list[index].title),
+            trailing: Icon(
               Icons.favorite,
               color: _aColor,
-          ),
-          onTap: () {
-            _aColor = getColorFavorite(list[index]);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => DetailScreen(media: list[index]),
-              ),
-            );
-          },
-        );
-      }
-  );
-
+            ),
+            onTap: () {
+              _aColor = getColorFavorite(list[index]);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => DetailScreen(media: list[index]),
+                ),
+              );
+            },
+          );
+        }
+    );
+  }
+  else{
+    return listView = Text("Vous n'avez pas encore de favories");
+  }
   return listView;
 }
+
+void getListOfFavorite (List<MediaModel> listAnime,List<MediaModel> listManga){
+
+  listAnime.forEach((element) {
+    if(element.isFavorite){
+      print(element.title);
+      favorites.add(element);
+    }
+    else if(favorites.contains(element)){
+      favorites.remove(element);
+      print("no");
+    }
+  });
+  listManga.forEach((element) {
+    if(element.isFavorite){
+      print(element.title);
+      favorites.add(element);
+    }
+    else if(favorites.contains(element)) {
+      favorites.remove(element);
+    }
+    print("nop");
+    });
+}
+
 Widget homeGridView( List<MediaModel> listAnime,List<MediaModel> listManga ){
   var gridView = GridView.count(
     primary: false,
@@ -437,7 +477,7 @@ Color getColorFavorite (MediaModel media){
   else return Colors.black12;
 }
 
-class DetailScreen extends StatelessWidget {
+class DetailScreen extends StatefulWidget {
   // Declare a field that holds the Todo.
   final MediaModel media;
 
@@ -445,12 +485,80 @@ class DetailScreen extends StatelessWidget {
   DetailScreen({Key key, @required this.media}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-     return MaterialApp(
-       title: 'Flutter layout demo',
-        home: Scaffold(
-          body: details(media, context),
-        ),
-     );
-  }
+  DetailsState createState() => DetailsState();
 }
+
+class DetailsState extends State<DetailScreen> {
+  Color _aColor;
+  @override
+    Widget build(BuildContext context) {
+      return MaterialApp(
+        title: 'Flutter layout demo',
+        home: Scaffold(
+          body:
+          DefaultTextStyle(
+          style: Theme.of(context).textTheme.bodyText2,
+            child: LayoutBuilder(
+              builder: (BuildContext context, BoxConstraints viewportConstraints) {
+                return SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: viewportConstraints.maxHeight,
+                      maxWidth: viewportConstraints.maxWidth,
+                    ),
+                    child: IntrinsicHeight(
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            width: MediaQuery.of(context).size.width, // donne la largeur de l'écran
+                            // A fixed-height child.
+                            height: 250,
+                            alignment: Alignment.center,
+                            child: Wrap(
+                              //mainAxisSize: MediaQuery.of(context).size.width,
+                              direction: Axis.horizontal,
+                              children: [
+                                Image(image: NetworkImage(widget.media.imageUrl, scale: 4)),
+                                Container(
+                                  child: IconButton(
+                                    icon: Icon(Icons.favorite),
+                                    color: _aColor = getColorFavorite(widget.media),
+                                    onPressed: () {
+                                      setState(() {
+                                        widget.media.isFavorite = !widget.media.isFavorite;
+                                        _aColor = getColorFavorite(widget.media);
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            child: FittedBox(
+                                fit: BoxFit.scaleDown,
+                                child: Text(widget.media.title, style: TextStyle( fontWeight: FontWeight.bold, fontSize: 40), maxLines: 1,overflow: TextOverflow.ellipsis,)
+                            ),
+                          ),
+                          Expanded(
+                            // A flexible child that will grow to fit the viewport but
+                            // still be at least as big as necessary to fit its contents.
+                            child: Container(
+                              padding: const EdgeInsets.all(20),
+                              height: 120.0,
+                              alignment: Alignment.center,
+                              child: Text(widget.media.description),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+      );
+    }
+  }
