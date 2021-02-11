@@ -89,70 +89,6 @@ final bds = [
 
 final List<MediaModel> favorites = [];
 
-Widget details(MediaModel media, BuildContext context) {
-  Color _aColor = getColorFavorite(media);
-  return DefaultTextStyle(
-    style: Theme.of(context).textTheme.bodyText2,
-    child: LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints viewportConstraints) {
-        return SingleChildScrollView(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minHeight: viewportConstraints.maxHeight,
-              maxWidth: viewportConstraints.maxWidth,
-            ),
-            child: IntrinsicHeight(
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    width: MediaQuery.of(context).size.width, // donne la largeur de l'écran
-                    // A fixed-height child.
-                    height: 250,
-                    alignment: Alignment.center,
-                    child: Wrap(
-                      //mainAxisSize: MediaQuery.of(context).size.width,
-                      direction: Axis.horizontal,
-                      children: [
-                        Image(image: NetworkImage(media.imageUrl, scale: 4)),
-                        Container(
-                          child: IconButton(
-                            icon: Icon(Icons.favorite),
-                            color: _aColor,
-                            onPressed: () {
-                              media.isFavorite = !media.isFavorite;
-                              _aColor = getColorFavorite(media);
-                              getListOfFavorite(series, bds);
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    child: FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Text(media.title, style: TextStyle( fontWeight: FontWeight.bold, fontSize: 40), maxLines: 1,overflow: TextOverflow.ellipsis,)
-                    ),
-                  ),
-                  Expanded(
-                    // A flexible child that will grow to fit the viewport but
-                    // still be at least as big as necessary to fit its contents.
-                    child: Container(
-                      padding: const EdgeInsets.all(20),
-                      height: 120.0,
-                      alignment: Alignment.center,
-                      child: Text(media.description),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    ),
-  );
-}
 
 void main() => runApp(MyApp());
 
@@ -188,10 +124,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     homeGridView(series, bds),
     getListView(series),
     getListView(bds),
-    getListView(favorites),
     Text(
-      'A Propos',
-      style: optionStyle,
+      'Cette application vous est proposé par Vinciane Leclercq et Marie Baey',
+      style: optionStyle ,
     )
   ];
 
@@ -206,6 +141,10 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('MEDIATHEQUE', textAlign: TextAlign.center),
+        actions: [
+          IconButton(icon: Icon(Icons.favorite ), onPressed: _pushSaved, ),
+        ],
+
         backgroundColor:Color.fromRGBO(186, 93, 98, 1) /*Color.fromRGBO(30, 47, 74, 0.7)*/
     ),
       body: Center(
@@ -229,10 +168,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           label: 'Mangas',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: 'Favoris',
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.movie_outlined),
             label: 'A Propos',
           ),
@@ -244,6 +179,37 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       ),
     );
   }
+  void _pushSaved() {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        // NEW lines from here...
+        builder: (BuildContext context) {
+          final tiles = favorites.map(
+                (MediaModel media) {
+              return ListTile(
+                title: Text(
+                  media.title
+                ),
+              );
+            },
+          );
+          final divided = ListTile.divideTiles(
+            context: context,
+            tiles: tiles,
+          ).toList();
+
+          return Scaffold(
+            appBar: AppBar(
+              title: Text('fav'),
+                backgroundColor:Color.fromRGBO(186, 93, 98, 1)
+            ),
+            body: ListView(children: divided),
+          );
+        }, // ...to here.
+      ),
+    );
+  }
+
 }
 
 Widget getListView( List<MediaModel> list) {
@@ -255,14 +221,14 @@ Widget getListView( List<MediaModel> list) {
         itemBuilder: (context, index) {
           Color _aColor = getColorFavorite(list[index]);
           return ListTile(
-
             leading: Image(
               image: NetworkImage(list[index].imageUrl),
             ),
             title: Text(list[index].title),
-            trailing: Icon(
+            trailing:
+            Icon(
               Icons.favorite,
-              color: _aColor,
+              color: list[index].isFavorite==true? Colors.red : Colors.black12,
             ),
             onTap: () {
               _aColor = getColorFavorite(list[index]);
@@ -273,6 +239,7 @@ Widget getListView( List<MediaModel> list) {
                 ),
               );
             },
+
           );
         }
     );
@@ -283,7 +250,7 @@ Widget getListView( List<MediaModel> list) {
   return listView;
 }
 
-void getListOfFavorite (List<MediaModel> listAnime,List<MediaModel> listManga){
+/*void getListOfFavorite (List<MediaModel> listAnime,List<MediaModel> listManga){
 
   listAnime.forEach((element) {
     if(element.isFavorite){
@@ -305,7 +272,7 @@ void getListOfFavorite (List<MediaModel> listAnime,List<MediaModel> listManga){
     }
     print("nop");
     });
-}
+}*/
 
 Widget homeGridView( List<MediaModel> listAnime,List<MediaModel> listManga ){
   var gridView = GridView.count(
@@ -527,6 +494,12 @@ class DetailsState extends State<DetailScreen> {
                                       setState(() {
                                         widget.media.isFavorite = !widget.media.isFavorite;
                                         _aColor = getColorFavorite(widget.media);
+                                        if(widget.media.isFavorite){
+                                          favorites.add(widget.media);
+                                        }
+                                        else{
+                                          favorites.remove(widget.media);
+                                        }
                                       });
                                     },
                                   ),
@@ -562,3 +535,5 @@ class DetailsState extends State<DetailScreen> {
       );
     }
   }
+
+  
