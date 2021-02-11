@@ -87,7 +87,7 @@ final bds = [
   ),
 ];
 
-final List<MediaModel> favorites = [];
+final List<MediaModel> favs = [];
 
 
 void main() => runApp(MyApp());
@@ -184,12 +184,21 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       MaterialPageRoute<void>(
         // NEW lines from here...
         builder: (BuildContext context) {
-          final tiles = favorites.map(
+          final tiles = favs.map(
                 (MediaModel media) {
               return ListTile(
                 title: Text(
                   media.title
                 ),
+                onTap: () {
+                  //_aColor = getColorFavorite(list[index]);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DetailScreen(media: media),
+                    ),
+                  );
+                },
               );
             },
           );
@@ -255,20 +264,20 @@ Widget getListView( List<MediaModel> list) {
   listAnime.forEach((element) {
     if(element.isFavorite){
       print(element.title);
-      favorites.add(element);
+      favs.add(element);
     }
-    else if(favorites.contains(element)){
-      favorites.remove(element);
+    else if(favs.contains(element)){
+      favs.remove(element);
       print("no");
     }
   });
   listManga.forEach((element) {
     if(element.isFavorite){
       print(element.title);
-      favorites.add(element);
+      favs.add(element);
     }
-    else if(favorites.contains(element)) {
-      favorites.remove(element);
+    else if(favs.contains(element)) {
+      favs.remove(element);
     }
     print("nop");
     });
@@ -495,10 +504,10 @@ class DetailsState extends State<DetailScreen> {
                                         widget.media.isFavorite = !widget.media.isFavorite;
                                         _aColor = getColorFavorite(widget.media);
                                         if(widget.media.isFavorite){
-                                          favorites.add(widget.media);
+                                          favs.add(widget.media);
                                         }
                                         else{
-                                          favorites.remove(widget.media);
+                                          favs.remove(widget.media);
                                         }
                                       });
                                     },
