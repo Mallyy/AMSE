@@ -356,7 +356,7 @@ Widget homeGridView( List<MediaModel> listAnime,List<MediaModel> listManga ){
           highlightShape: BoxShape.rectangle,
           borderRadius: BorderRadius.all(Radius.circular(40.0)),
           highlightColor: Color.fromRGBO(244, 184, 13, 0.2),
-          onTap: (){          // a laisser trigger le highkight au toucher
+          onTap: (){          // a laisser trigger le inkResponse au toucher
           } ,
           child: Align(
             alignment: Alignment.center,
@@ -416,7 +416,7 @@ Widget homeGridView( List<MediaModel> listAnime,List<MediaModel> listManga ){
                 text: getNumLikedMedia(series).toString(),
                 style: TextStyle(fontSize: 70, ),
                 children: <TextSpan>[
-                  TextSpan(text: '\nanimés likés', style: TextStyle(fontSize: 15, color: Colors.black54)),
+                  TextSpan(text: '\nanimés favoris', style: TextStyle(fontSize: 15, color: Colors.black54)),
                 ],
               ),
               textAlign: TextAlign.center,
@@ -441,7 +441,7 @@ Widget homeGridView( List<MediaModel> listAnime,List<MediaModel> listManga ){
                 text: getNumLikedMedia(bds).toString(),
                 style: TextStyle(fontSize: 70, ),
                 children: <TextSpan>[
-                  TextSpan(text: '\nmangas likés', style: TextStyle(fontSize: 15, color: Colors.black54)),
+                  TextSpan(text: '\nmangas favoris', style: TextStyle(fontSize: 15, color: Colors.black54)),
                 ],
               ),
               textAlign: TextAlign.center,
@@ -463,10 +463,10 @@ Widget homeGridView( List<MediaModel> listAnime,List<MediaModel> listManga ){
             alignment: Alignment.center,
             child: RichText(
               text: TextSpan(
-                text: '??',
-                style: TextStyle(fontSize: 70, ),
+                text: 'Tips',
+                style: TextStyle(fontSize: 35, ),
                 children: <TextSpan>[
-                  TextSpan(text: '\n??', style: TextStyle(fontSize: 15, color: Colors.black54)),
+                  TextSpan(text: '\nVous pouvez liker les medias dans la fenetre details', style: TextStyle(fontSize: 15, color: Colors.black54)),
                 ],
               ),
               textAlign: TextAlign.center,
@@ -488,10 +488,10 @@ Widget homeGridView( List<MediaModel> listAnime,List<MediaModel> listManga ){
             alignment: Alignment.center,
             child: RichText(
               text: TextSpan(
-                text: '??',
-                style: TextStyle(fontSize: 70, ),
+                text: 'Tips',
+                style: TextStyle(fontSize: 35, ),
                 children: <TextSpan>[
-                  TextSpan(text: '\n??', style: TextStyle(fontSize: 15, color: Colors.black54)),
+                  TextSpan(text: '\n En cliquant sur le coeur vous pourrez consulter vos favoris', style: TextStyle(fontSize: 15, color: Colors.black54)),
                 ],
               ),
               textAlign: TextAlign.center,
