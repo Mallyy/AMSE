@@ -358,7 +358,7 @@ Widget homeGridView( List<MediaModel> listAnime,List<MediaModel> listManga ){
         child: InkResponse(
           highlightShape: BoxShape.rectangle,
           borderRadius: BorderRadius.all(Radius.circular(40.0)),
-          highlightColor: Color.fromRGBO(244, 184, 13, 0.2),
+          highlightColor: Color.fromRGBO(179, 54, 135, 0.3),
           onTap: (){          // a laisser trigger le inkResponse au toucher
           } ,
           child: Align(
@@ -384,7 +384,7 @@ Widget homeGridView( List<MediaModel> listAnime,List<MediaModel> listManga ){
         child: InkResponse(
           highlightShape: BoxShape.rectangle,
           borderRadius: BorderRadius.all(Radius.circular(40.0)),
-          highlightColor: Color.fromRGBO(244, 184, 13, 0.2),
+          highlightColor: Color.fromRGBO(179, 54, 135, 0.3),
           onTap: (){
           } ,
           child: Align(
@@ -409,7 +409,7 @@ Widget homeGridView( List<MediaModel> listAnime,List<MediaModel> listManga ){
         child: InkResponse(
           highlightShape: BoxShape.rectangle,
           borderRadius: BorderRadius.all(Radius.circular(40.0)),
-          highlightColor: Color.fromRGBO(244, 184, 13, 0.2),
+          highlightColor: Color.fromRGBO(179, 54, 135, 0.3),
           onTap: (){
           } ,
           child: Align(
@@ -434,7 +434,7 @@ Widget homeGridView( List<MediaModel> listAnime,List<MediaModel> listManga ){
         child: InkResponse(
           highlightShape: BoxShape.rectangle,
           borderRadius: BorderRadius.all(Radius.circular(40.0)),
-          highlightColor: Color.fromRGBO(244, 184, 13, 0.2),
+          highlightColor: Color.fromRGBO(179, 54, 135, 0.3),
           onTap: (){
           } ,
           child: Align(
@@ -459,7 +459,7 @@ Widget homeGridView( List<MediaModel> listAnime,List<MediaModel> listManga ){
         child: InkResponse(
           highlightShape: BoxShape.rectangle,
           borderRadius: BorderRadius.all(Radius.circular(40.0)),
-          highlightColor: Color.fromRGBO(244, 184, 13, 0.2),
+          highlightColor: Color.fromRGBO(179, 54, 135, 0.3),
           onTap: (){
           } ,
           child: Align(
@@ -484,7 +484,7 @@ Widget homeGridView( List<MediaModel> listAnime,List<MediaModel> listManga ){
         child: InkResponse(
           highlightShape: BoxShape.rectangle,
           borderRadius: BorderRadius.all(Radius.circular(40.0)),
-          highlightColor: Color.fromRGBO(244, 184, 13, 0.2),
+          highlightColor: Color.fromRGBO(179, 54, 135, 0.3),
           onTap: (){
           } ,
           child: Align(
