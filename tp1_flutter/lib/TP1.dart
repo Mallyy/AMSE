@@ -172,6 +172,9 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           final tiles = favs.map(
                 (MediaModel media) {
               return ListTile(
+                leading: Image(
+                  image: NetworkImage(media.imageUrl),
+                ),
                 title: Text(
                     media.title
                 ),
