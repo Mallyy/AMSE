@@ -18,6 +18,9 @@ class _Exo1 extends State<Exo1> {
         appBar: AppBar(
         title: Text('Exo1'),
     ),
+      body: const Image(
+        image: NetworkImage('https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),
+      )
     );
     throw UnimplementedError();
   }
