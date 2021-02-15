@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'EXO1.dart';
+import 'EXO2.dart';
 final List<String> entries = <String>['1', '2', '3'];
 final List<int> colorCodes = <int>[600, 500, 100];
 
@@ -25,8 +26,6 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
-
-
 
   final String title;
 
@@ -65,6 +64,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 child:  ListTile(
                   title: Text('Exercice ${entries[index]}'),
                   trailing: Icon(Icons.arrow_right),
+                  onTap: (){
+                    openExo(index, context);
+                  },
                 ),
             ),
             );
@@ -77,4 +79,27 @@ class _MyHomePageState extends State<MyHomePage> {
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+}
+
+void openExo (int index, BuildContext context){
+  switch(index){
+    case 0 :
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Exo1(),
+          )
+      );
+      break;
+    case 1 :
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Exo2(),
+          )
+      );
+      break;
+    default:
+  }
+
 }
