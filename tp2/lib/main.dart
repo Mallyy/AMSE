@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'EXO1.dart';
 import 'EXO2.dart';
 import 'EXO4.dart';
-final List<String> entries = <String>['1', '2', '3', '4'];
+import 'EXO5.dart';
+final List<String> entries = <String>['1', '2', '3', '4', '5'];
 
 
 void main() {
@@ -104,7 +105,15 @@ void openExo (int index, BuildContext context){
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => Exo4(),
+            builder: (context) => DisplayTileWidget(),
+          )
+      );
+      break;
+    case 4:
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Exo5(),
           )
       );
       break;
