@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'EXO4.dart';
 
 class Exo5 extends StatefulWidget {
   // Declare a field that holds the Todo.
@@ -16,6 +16,8 @@ class Exo5 extends StatefulWidget {
 class _Exo5 extends State<Exo5> {
   var nbTile= 9;
   double _sideSquare= 3;
+  //Alignment tileAlignment= Alignment(-1, -1);
+  Tile tile = new Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment((-1), -1));
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -31,15 +33,12 @@ class _Exo5 extends State<Exo5> {
                 child:GridView.count(
                 primary: false,
                 padding: const EdgeInsets.all(20),
-                crossAxisSpacing: 2,
-                mainAxisSpacing: 2,
+                crossAxisSpacing: 1,
+                mainAxisSpacing: 1,
                 crossAxisCount: _sideSquare.toInt(),
                 children: List.generate(nbTile, (index) {
                   return Container(
-                      padding: const EdgeInsets.all(8),
-                      color: Colors.black12,
-                      child: Text('Tile $index',)
-                  );
+                          child: this.createTileWidgetFrom(tile));
                 })
             ),
             ),
@@ -56,38 +55,17 @@ class _Exo5 extends State<Exo5> {
                 });
               },
             )
-            /*GridView.count(
-                primary: false,
-                padding: const EdgeInsets.all(20),
-                crossAxisSpacing: 2,
-                mainAxisSpacing: 2,
-                crossAxisCount: 3,
-                children: List.generate(nbTile, (index) {
-                  return Container(
-                      padding: const EdgeInsets.all(8),
-                      color: Colors.black12,
-                      child: Text('Tile $index',)
-                  );
-                })
-            ),
-            Slider(
-              value: _rotateXSliderValue,
-              min: 0,
-              max: 100,
-              divisions: 10,
-              label: _rotateXSliderValue.round().toString(),
-              onChanged: (double value) {
-                setState(() {
-                  _rotateXSliderValue = value;
-                });
-              },
-
-            ),*/
           ],
         )
     );
-    throw UnimplementedError();
   }
 
-
+  Widget createTileWidgetFrom(Tile tile) {
+    return InkWell(
+      child: tile.croppedImageTile(),
+      onTap: () {
+        print("tapped on tile");
+      },
+    );
+  }
 }
