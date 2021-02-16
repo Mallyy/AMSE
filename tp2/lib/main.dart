@@ -104,7 +104,7 @@ void openExo (int index, BuildContext context){
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => Exo4(),
+            builder: (context) => DisplayTileWidget(),
           )
       );
       break;

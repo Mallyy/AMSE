@@ -1,41 +1,5 @@
 import 'package:flutter/material.dart';
-class Exo4 extends StatefulWidget {
-  // Declare a field that holds the Todo.
 
-  // In the constructor, require a Todo.
-  Exo4({Key key}) : super(key: key);
-
-  @override
-  _Exo4 createState() => _Exo4();
-}
-
-///le state du stateful Widget au dessus
-class _Exo4 extends State<Exo4> {
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Exo4'),
-      ),
-      body: Column (
-        children: [
-          Container(
-              clipBehavior: Clip.hardEdge,
-              decoration: BoxDecoration(color: Colors.white),
-              margin: EdgeInsets.all(20.0),
-              child: const Image(
-                image: NetworkImage('https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),
-              )
-          ),
-        ],
-      ),
-    );
-    throw UnimplementedError();
-  }
-
-
-}
 class Tile {
   String imageURL;
   Alignment alignment;
@@ -80,8 +44,7 @@ class DisplayTileWidget extends StatelessWidget {
                     child: this.createTileWidgetFrom(tile))),
             Container(
                 height: 200,
-                child: Image.network('https://picsum.photos/512',
-                    fit: BoxFit.cover))
+                child: Image.network('https://picsum.photos/512', fit: BoxFit.cover))
           ])),
     );
   }
