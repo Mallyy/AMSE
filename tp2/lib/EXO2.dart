@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:math';
 class Exo2 extends StatefulWidget {
   // Declare a field that holds the Todo.
 
@@ -11,9 +13,9 @@ class Exo2 extends StatefulWidget {
 
 ///le state du stateful Widget au dessus
 class _Exo2 extends State<Exo2> {
-  double _rotateXSliderValue = 20;
-  double _rotateZSliderValue = 20;
-  double _scaleSliderValue = 20;
+  double _rotateXSliderValue = 0;
+  double _rotateZSliderValue = 0;
+  double _scaleSliderValue = 100;
   bool _isMirror = false;
   // TODO: implement build
   @override
@@ -25,16 +27,34 @@ class _Exo2 extends State<Exo2> {
       body: Column (
         children: [
           Container(
-              clipBehavior: Clip.hardEdge,
-              decoration: BoxDecoration(color: Colors.white),
-              margin: EdgeInsets.all(20.0),
-              child: Image(
-                image: NetworkImage('https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),
+            height: 300,
+            alignment: Alignment.center,
+            child: Transform(
+              transform: Matrix4(
+                1, 0, 0, 0, // scale X
+                0, 1, 0, 0, // scale Y
+                0, 0, 1, 0,
+                0, 0, 0, 1 / (_scaleSliderValue / 100), // scale X&Y
               )
+                ..rotateX(pi / 180 * _rotateXSliderValue)
+                ..rotateY(_isMirror ? pi : 0)
+                ..rotateZ(pi / 180 * _rotateZSliderValue),
+                alignment: Alignment.center,
+              child: Container(
+                  clipBehavior: Clip.hardEdge,
+                  decoration: BoxDecoration(color: Colors.white),
+                  child: Image(
+                    image: NetworkImage('https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),
+                  )
+              ),
+            )
           ),
           Container(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
               children: [
+                Text("Déformation vertical"),
                 Slider(
                   value: _rotateXSliderValue,
                   min: 0,
@@ -47,6 +67,7 @@ class _Exo2 extends State<Exo2> {
                     });
                   },
                 ),
+                Text("Rotation"),
                 Slider(
                   value: _rotateZSliderValue,
                   min: 0,
@@ -59,6 +80,7 @@ class _Exo2 extends State<Exo2> {
                     });
                   },
                 ),
+                Text("Mirroir"),
                 Checkbox(
                     value: _isMirror,
                     onChanged:  (bool) {
@@ -67,6 +89,7 @@ class _Exo2 extends State<Exo2> {
                       });
                     },
                 ),
+                Text("Taille"),
                 Slider(
                   value: _scaleSliderValue,
                   min: 0,
