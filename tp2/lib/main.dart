@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'EXO1.dart';
 import 'EXO2.dart';
-final List<String> entries = <String>['1', '2', '3'];
-final List<int> colorCodes = <int>[600, 500, 100];
+import 'EXO4.dart';
+final List<String> entries = <String>['1', '2', '3', '4'];
+
 
 void main() {
   runApp(MyApp());
@@ -96,6 +97,14 @@ void openExo (int index, BuildContext context){
           context,
           MaterialPageRoute(
             builder: (context) => Exo2(),
+          )
+      );
+      break;
+    case 3 :
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Exo4(),
           )
       );
       break;
