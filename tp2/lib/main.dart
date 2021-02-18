@@ -125,6 +125,7 @@ void openExo (int index, BuildContext context){
             builder: (context) => PositionedTiles(),
           )
       );
+      
       break;
     default:
   }
