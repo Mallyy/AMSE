@@ -17,10 +17,12 @@ class _Exo5 extends State<Exo5> {
   var nbTile= 9;
   double _sideSquare= 3;
   //Alignment tileAlignment= Alignment(-1, -1);
-  Tile tile = new Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment((-1), -1));
+  //Tile tile = new Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment((-1), -1));
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
+    List<Tile> tiles = makeTile(_sideSquare);
     return Scaffold(
         appBar: AppBar(
           title: Text('Exo5'),
@@ -37,8 +39,14 @@ class _Exo5 extends State<Exo5> {
                 mainAxisSpacing: 1,
                 crossAxisCount: _sideSquare.toInt(),
                 children: List.generate(nbTile, (index) {
-                  return Container(
-                          child: this.createTileWidgetFrom(tile));
+                  if (_sideSquare==3){
+                    return Container(
+                        child: this.createTileWidgetFrom(tiles[index]));
+                  }
+                  else return Container(
+                    color: Colors.black12,
+                    child: Text("tile $index"),
+                  );
                 })
             ),
             ),
@@ -68,4 +76,14 @@ class _Exo5 extends State<Exo5> {
       },
     );
   }
+}
+List<Tile> makeTile(double _squareSide){
+  List<Tile> list = <Tile>[];
+
+  for(double i=-1; i<=1; i++){
+    for(double j=-1; j<=1;j++){
+      list.add(new Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(j,i)));
+    }
+  }
+  return list;
 }
