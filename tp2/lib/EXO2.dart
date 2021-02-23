@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
@@ -16,7 +18,9 @@ class _Exo2 extends State<Exo2> {
   double _rotateXSliderValue = 0;
   double _rotateZSliderValue = 0;
   double _scaleSliderValue = 100;
+  bool _isPlaying = false;
   bool _isMirror = false;
+  bool _animationOn = false;
   // TODO: implement build
   @override
   Widget build(BuildContext context) {
@@ -54,54 +58,95 @@ class _Exo2 extends State<Exo2> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text("Déformation vertical"),
-                Slider(
-                  value: _rotateXSliderValue,
-                  min: 0,
-                  max: 100,
-                  divisions: 10,
-                  label: _rotateXSliderValue.round().toString(),
-                  onChanged: (double value) {
-                    setState(() {
-                      _rotateXSliderValue = value;
-                    });
-                  },
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Déformation"),
+                    Slider(
+                      value: _rotateXSliderValue,
+                      min: 0,
+                      max: 100,
+                      divisions: 10,
+                      label: _rotateXSliderValue.round().toString(),
+                      onChanged: (double value) {
+                        setState(() {
+                          _rotateXSliderValue = value;
+                        });
+                      },
+                    ),
+                  ],
                 ),
-                Text("Rotation"),
-                Slider(
-                  value: _rotateZSliderValue,
-                  min: 0,
-                  max: 100,
-                  divisions: 10,
-                  label: _rotateZSliderValue.round().toString(),
-                  onChanged: (double value) {
-                    setState(() {
-                      _rotateZSliderValue = value;
-                    });
-                  },
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Rotation"),
+                    Slider(
+                      value: _rotateZSliderValue,
+                      min: 0,
+                      max: 100,
+                      divisions: 10,
+                      label: _rotateZSliderValue.round().toString(),
+                      onChanged: (double value) {
+                        setState(() {
+                          _rotateZSliderValue = value;
+                        });
+                      },
+                    ),
+                  ]
                 ),
-                Text("Mirroir"),
-                Checkbox(
-                    value: _isMirror,
-                    onChanged:  (bool) {
-                      setState(() {
-                        _isMirror = !_isMirror;
-                      });
-                    },
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Miroir"),
+                    Checkbox(
+                      value: _isMirror,
+                      onChanged:  (bool) {
+                        setState(() {
+                          _isMirror = !_isMirror;
+                        });
+                      },
+                    ),
+                  ],
                 ),
-                Text("Taille"),
-                Slider(
-                  value: _scaleSliderValue,
-                  min: 0,
-                  max: 100,
-                  divisions: 10,
-                  label: _scaleSliderValue.round().toString(),
-                  onChanged: (double value) {
-                    setState(() {
-                      _scaleSliderValue = value;
-                    });
-                  },
-                )
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                     Text("Taille"),
+                     Slider(
+                       value: _scaleSliderValue,
+                       min: 0,
+                       max: 100,
+                       divisions: 10,
+                       label: _scaleSliderValue.round().toString(),
+                       onChanged: (double value) {
+                         setState(() {
+                           _scaleSliderValue = value;
+                         });
+                       },
+                     )
+                   ],
+                ),
+                    Ink(
+                        decoration: const ShapeDecoration(
+                          color: Colors.lightBlue,
+                          shape: CircleBorder(),
+                        ),
+                      child: FloatingActionButton(
+                          child: _isPlaying
+                        ? Icon(
+                        Icons.pause_circle_outline,
+                        size: 40.0,
+                      )
+                            : Icon(Icons.play_circle_outline, size: 40.0),
+                          onPressed: (){
+                            setState(() {
+                              _isPlaying = !_isPlaying;
+                              const d = const Duration(milliseconds: 50);
+                              new Timer.periodic(d, animate);
+                            });
+                          }
+                      ),
+                    ),
               ],
             )
           ),
@@ -110,4 +155,17 @@ class _Exo2 extends State<Exo2> {
     );
     throw UnimplementedError();
   }
+  void animate(Timer t){
+    setState(() {
+      if(_isPlaying == true){
+        _rotateXSliderValue = (_rotateXSliderValue+1)%(100);
+        _rotateZSliderValue = (_rotateZSliderValue+1)%(100);
+        _scaleSliderValue = (_scaleSliderValue+1)%(100);
+      }
+      else{
+        t.cancel();
+      }
+    });
+  }
 }
+
