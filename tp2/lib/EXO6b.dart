@@ -58,12 +58,23 @@ class PositionedTiles2State extends State<PositionedTiles2> {
         title: Text('Moving Tiles'),
         centerTitle: true,
       ),
-      body: GridView.count(
+      /*body: GridView.count(
         crossAxisCount: 3,
         padding: const EdgeInsets.all(20),
         crossAxisSpacing: 1,
         mainAxisSpacing: 1,
         children: tiles,
+      ),*/
+      body: GridView.builder(
+        itemCount: tiles.length,
+        itemBuilder: (BuildContext context, int index) =>
+            tiles[index],
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+        mainAxisSpacing: 1,
+        crossAxisSpacing: 1,
+      ),
+        padding: const EdgeInsets.all(20),
       ),
 
       floatingActionButton: FloatingActionButton(
