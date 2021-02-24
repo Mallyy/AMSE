@@ -66,6 +66,14 @@ class _Taquin extends State<Taquin> {
                     widgetList.insert(
                         tempTile1, widgetList.removeAt(tempTile2));
                     tempTile1 = index;
+                    widgetList.removeAt(tempTile1);
+                    widgetList.insert(tempTile2, Container(
+                        color: Colors.red,
+                        child: new InkResponse(
+                          child: Text("VIDE", textAlign: TextAlign.center,),
+                        ),
+                      ),
+                    );
                   });
                 }
               },
@@ -115,7 +123,12 @@ class _Taquin extends State<Taquin> {
             widgetList = List<Widget>.generate(nbTile, (index) {
               return Container(
                 child: new InkResponse(
-                  child: Text("test $index"),
+                    child:index==tempTile1? Text("test $index",
+                      style: TextStyle(color: Colors.red),
+                    )
+                        :Text("test $index",
+                      style: TextStyle(color: Colors.black12),
+                    )
                 ),
               );
             });
@@ -131,7 +144,7 @@ class _Taquin extends State<Taquin> {
 
   testVictory(){
     for ( int i = 0; i<= widgetList.length; i++){
-      widgetL
+     // widgetL
     }
   }
 
