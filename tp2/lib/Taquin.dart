@@ -24,7 +24,6 @@ class _Taquin extends State<Taquin> {
   //Tile tile = new Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment((-1), -1));
   List<Widget> widgetList = List<Widget>.generate(4, (index) {
     return Container(
-      color: Colors.red,
       child: new InkResponse(
         child: Text(index.toString()),
       ),
@@ -63,11 +62,10 @@ class _Taquin extends State<Taquin> {
                 if(((index - tempTile1 == _sideSquare || index - tempTile1 == -_sideSquare)) || (index-tempTile1==1 || (index-tempTile1==-1))){ // le deplacement de la tile 0 n'est possible que pour les case adjacentes
                   tempTile2 = index;
                   setState(() {
-                    widgetList.insert(
-                        tempTile2, widgetList.removeAt(tempTile1));
+                    widgetList.insert(tempTile1, widgetList.removeAt(tempTile2));
                     tempTile1 = index;
-                    widgetList.removeAt(tempTile1);
-                    widgetList.insert(tempTile2, Container(
+                    widgetList.removeAt(tempTile2);
+                    widgetList.insert(tempTile1-1, Container(
                         color: Colors.red,
                         child: new InkResponse(
                           child: Text("VIDE", textAlign: TextAlign.center,),
