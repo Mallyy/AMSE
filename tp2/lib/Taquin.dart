@@ -14,27 +14,26 @@ class Taquin extends StatefulWidget {
 
 ///le state du stateful Widget au dessus
 class _Taquin extends State<Taquin> {
-  var nbTile= 9;
-  double _sideSquare= 3;
+  var nbTile= 4;
+  double _sideSquare= 2;
   var tempTile1 =0;
   var tempTile2;
   var compteur = 0;
-
+  bool _inGame = false;
   //Alignment tileAlignment= Alignment(-1, -1);
   //Tile tile = new Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment((-1), -1));
-  List<Widget> widgetList = List<Widget>.generate(9, (index) {
-  return Container(
-  child: new InkResponse(
-  child: Text(index.toString()),
-  ),
-  );
+  List<Widget> widgetList = List<Widget>.generate(4, (index) {
+    return Container(
+      color: Colors.red,
+      child: new InkResponse(
+        child: Text(index.toString()),
+      ),
+    );
   });
-  List<Tile> tiles;
+  //List<Tile> tiles;
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    tiles = makeTile(_sideSquare);
-
     /*widgetList = List<Widget>.generate(nbTile, (index) {
       if (_sideSquare==3){
         return Container(
@@ -65,7 +64,7 @@ class _Taquin extends State<Taquin> {
                   tempTile2 = index;
                   setState(() {
                     widgetList.insert(
-                        tempTile2, widgetList.removeAt(tempTile1));
+                        tempTile1, widgetList.removeAt(tempTile2));
                     tempTile1 = index;
                   });
                 }
@@ -83,8 +82,10 @@ class _Taquin extends State<Taquin> {
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         child: Container(
-          height: 50.0,
-          child: Slider(
+          height: 100.0,
+          child: 
+          _inGame? Text("inGame",)
+              : Slider(
             value: _sideSquare,
             min: 2,
             max: 10,
@@ -107,13 +108,31 @@ class _Taquin extends State<Taquin> {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => setState(() {
+          _inGame=!_inGame;
+          if (_inGame == true){
+            widgetList = List<Widget>.generate(nbTile, (index) {
+              return Container(
+                child: new InkResponse(
+                  child: Text("test $index"),
+                ),
+              );
+            });
+          }
+        }),
+        tooltip: 'play!',
+        child: Icon(Icons.play_arrow),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
     );
   }
-  swapTiles() {
-    setState(() {
-      tiles.insert(2, tiles.removeAt(0));
-    });
+
+  testVictory(){
+    for ( int i = 0; i<= widgetList.length; i++){
+      widgetL
+    }
   }
 
   Widget createTileWidgetFrom(Tile tile) {
