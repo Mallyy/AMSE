@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
+import 'package:tp2/EXO4.dart';
+
 // ==============
 // Models
 // ==============
@@ -9,11 +11,16 @@ math.Random random = new math.Random();
 
 class Tile {
   Color color;
+  int id =0;
 
-  Tile(this.color);
-  Tile.randomColor() {
+  Tile(this.color, this.id);
+  Tile.randomColor(var index) {
     this.color = Color.fromARGB(
         255, random.nextInt(255), random.nextInt(255), random.nextInt(255));
+    this.id = index;
+  }
+  Tile.id(var index){
+    this.id=index;
   }
 }
 
@@ -23,8 +30,8 @@ class Tile {
 
 class TileWidget extends StatelessWidget {
   final Tile tile;
-
-  TileWidget(this.tile);
+  var id;
+  TileWidget(this.tile, this.id);
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +56,10 @@ class PositionedTiles2 extends StatefulWidget {
 
 class PositionedTiles2State extends State<PositionedTiles2> {
   List<Widget> tiles =
-  List<Widget>.generate(9, (index) => TileWidget(Tile.randomColor()));
+  List<Widget>.generate(9, (index) => TileWidget(Tile.randomColor(index), Tile.id(index)));
+  var tempTile1;
+  var tempTile2;
+  var compteur=0;
 
   @override
   Widget build(BuildContext context) {
@@ -67,8 +77,29 @@ class PositionedTiles2State extends State<PositionedTiles2> {
       ),*/
       body: GridView.builder(
         itemCount: tiles.length,
-        itemBuilder: (BuildContext context, int index) =>
-            tiles[index],
+        itemBuilder: (BuildContext context, int index)
+        {
+          return new Card(
+          child: new InkResponse(
+            child: tiles[index],
+
+            onTap:() {
+              if(compteur==0){
+                tempTile1 = index;
+                compteur = 1;
+              }
+              else if (compteur == 1){
+                tempTile2 = index;
+                setState(() {
+                  tiles.insert(tempTile1, tiles.removeAt(tempTile2));
+                });
+                compteur = 0;
+               // swapTiles();
+              }
+            },
+          ),
+      );
+        },
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         mainAxisSpacing: 1,
@@ -84,7 +115,7 @@ class PositionedTiles2State extends State<PositionedTiles2> {
 
   swapTiles() {
     setState(() {
-      tiles.insert(1, tiles.removeAt(0));
+      tiles.insert(2, tiles.removeAt(0));
     });
   }
 }

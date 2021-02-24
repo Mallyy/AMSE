@@ -5,7 +5,8 @@ import 'EXO4.dart';
 import 'EXO5.dart';
 import 'EXO6.dart';
 import 'EXO6b.dart';
-final List<String> entries = <String>['1', '2', '3', '4', '5', '6a', '6b'];
+import 'Taquin.dart';
+final List<String> entries = <String>['1', '2', '3', '4', '5', '6a', '6b', 'Taquin'];
 
 
 void main() {
@@ -132,6 +133,14 @@ void openExo (int index, BuildContext context){
           context,
           MaterialPageRoute(
             builder: (context) => PositionedTiles2(),
+          )
+      );
+      break;
+    case 7:
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => Taquin(),
           )
       );
       break;
