@@ -1,6 +1,9 @@
+import 'dart:ffi';
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'EXO4.dart';
+
 
 class Exo5 extends StatefulWidget {
   // Declare a field that holds the Todo.
@@ -15,7 +18,7 @@ class Exo5 extends StatefulWidget {
 ///le state du stateful Widget au dessus
 class _Exo5 extends State<Exo5> {
   var nbTile= 9;
-  double _sideSquare= 3;
+  double _sideSquare = 3;
   //Alignment tileAlignment= Alignment(-1, -1);
   //Tile tile = new Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment((-1), -1));
 
@@ -39,14 +42,14 @@ class _Exo5 extends State<Exo5> {
                 mainAxisSpacing: 1,
                 crossAxisCount: _sideSquare.toInt(),
                 children: List.generate(nbTile, (index) {
-                  if (_sideSquare==3){
+                  //if (_sideSquare==3){
                     return Container(
-                        child: this.createTileWidgetFrom(tiles[index]));
-                  }
-                  else return Container(
-                    color: Colors.black12,
-                    child: Text("tile $index"),
-                  );
+                        child: this.createTileWidgetFrom( tiles[index], ));
+                  //}
+                  //else return Container(
+                  //  color: Colors.black12,
+                  //  child: Text("tile $index"),
+                  //);
                 })
             ),
             ),
@@ -77,13 +80,51 @@ class _Exo5 extends State<Exo5> {
     );
   }
 }
+
+class Tile {
+  String imageURL;
+  Alignment alignment;
+  double scale;
+
+  Tile({this.imageURL, this.alignment, this.scale});
+
+  Widget croppedImageTile() {
+    return FittedBox(
+      fit: BoxFit.fill,
+      child: ClipRect(
+        child: Container(
+          child: Align(
+            alignment: this.alignment,
+            widthFactor: scale,
+            heightFactor: scale,
+            child: Image.network(this.imageURL),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 List<Tile> makeTile(double _squareSide){
   List<Tile> list = <Tile>[];
-
-  for(double i=-1; i<=1; i++){
-    for(double j=-1; j<=1;j++){
-      list.add(new Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(j,i)));
+  for(double i=0; i<=_squareSide-1; i++ ){
+    double y = i/(_squareSide-1);
+    print(y);
+    for(double j=0; j<=_squareSide-1; j++ ){
+      double x = j/(_squareSide-1) ;
+      list.add(new Tile(imageURL: 'https://picsum.photos/512', alignment: FractionalOffset(x, y), scale: 1/_squareSide));
     }
   }
+  /*list.add(new Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(-1,-1)));
+  list.add(new Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(-1,-0.5)));
+  list.add(new Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(-1,-1)));
+  list.add(new Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(-1,-1)));
+
+  list.add(new Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(-1,-1)));
+  list.add(new Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(-1,-1)));
+  list.add(new Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(-1,-1)));
+  list.add(new Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(-1,-1)));*/
+
+
   return list;
 }
