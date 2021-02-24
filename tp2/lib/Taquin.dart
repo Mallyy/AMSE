@@ -64,7 +64,7 @@ class _Taquin extends State<Taquin> {
                   tempTile2 = index;
                   setState(() {
                     widgetList.insert(
-                        tempTile1, widgetList.removeAt(tempTile2));
+                        tempTile2, widgetList.removeAt(tempTile1));
                     tempTile1 = index;
                     widgetList.removeAt(tempTile1);
                     widgetList.insert(tempTile2, Container(
