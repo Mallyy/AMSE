@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:collection/collection.dart';
 
 class Taquin extends StatefulWidget {
   // Declare a field that holds the Todo.
@@ -13,43 +14,32 @@ class Taquin extends StatefulWidget {
 
 ///le state du stateful Widget au dessus
 class _Taquin extends State<Taquin> {
-  var nbTile= 4;
-  double _sideSquare= 2;
+  // ----------- declaration des varibles ----------------------\\
+  var nbTile= 4; // par defaut, la grille a 4 tuiles
+  double _sideSquare= 2; // la taille en tiles du cote da la grille
   var tempTile1;
   var tempTile2;
-  var compteur = 0;
-  bool _inGame = false;
-  bool _listGameCree= false;
+  var compteur = 0; // compteur de coup
+  bool _inGame = false; // true si la partie est en cours
+  bool isWon = false; // indique si la partie est gagnée
 
-  List<Widget> widgetList;
+  List<Widget> widgetList;// declaration de la liste des tiles jouable
+  List<Widget> widgetListTest; // la liste qui sert a verifier que le jeu est gagné
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    if(_inGame==true && _listGameCree == false){
-      print("cree list on game");
-      tempTile1=0;
+    if (_inGame== false ) { // tant que le jeu n'est pas lancé
+    tempTile1=0;
       List<Tile> tiles = makeTile(_sideSquare);
       widgetList = List<Widget>.generate(nbTile, (index) {
         return Container(
           child: new InkResponse(
-            //child: Text("$index", textAlign: TextAlign.center,),
             child: this.createTileWidgetFrom(tiles[index], index),
           ),
         );
       });
-      _listGameCree = true;
-    }
-    else if (_inGame== false ) {
-      List<Tile> tiles = makeTile(_sideSquare);
-      widgetList = List<Widget>.generate(nbTile, (index) {
-        return Container(
-          child: new InkResponse(
-            child: this.createTileWidgetFrom( tiles[index], index ),
-          ),
-        );
-      });
-      print("new List tile");
+      widgetListTest = new List<Widget>.from(widgetList); // duplique la list widgetList
     }
     return Scaffold(
       appBar: AppBar(
@@ -61,17 +51,25 @@ class _Taquin extends State<Taquin> {
           return new Card(
             child: new InkResponse(
               child: widgetList[index],
-              /*onTap: (){
-                print("tapOnTile");
+              onTap: (){
+                print("tapOnTile $index $tempTile1");
                 if(((index - tempTile1 == _sideSquare || index - tempTile1 == -_sideSquare)) || (index-tempTile1==1 || (index-tempTile1==-1))){ // le deplacement de la tile 0 n'est possible que pour les case adjacentes
                   tempTile2 = index;
                   setState(() {
                     widgetList.insert(tempTile2, widgetList.removeAt(tempTile1));
+                    if (index - tempTile1 == _sideSquare){// pour haut et bas (c'est pour éviter le décalage d'avant)
+                      print("bas");
+                      widgetList.insert(tempTile1, widgetList.removeAt(tempTile2-1));
+                    }
+                    else if (index - tempTile1 == -_sideSquare){
+                      print("bas");
+                      widgetList.insert(tempTile1, widgetList.removeAt(tempTile2+1));
+                    }
                     print("tile swap");
                     tempTile1 = index;
                   });
                 }
-              },*/
+              },
             ),
           );
         },
@@ -85,9 +83,50 @@ class _Taquin extends State<Taquin> {
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         child: Container(
-          height: 100.0,
+          height: 250.0,
           child: 
-          _inGame? Text("inGame", )
+          _inGame? Container(
+            padding: const EdgeInsets.all(90),
+            child: OutlineButton(
+              onPressed: () {
+                print(eq(widgetListTest,widgetList));
+                return showDialog<void>(
+                  context: context,
+                  barrierDismissible: false, // user must tap button!
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('Did you solve the puzzle?'),
+                      content: eq(widgetListTest,widgetList)? SingleChildScrollView(
+                        child: ListBody(
+                          children: <Widget>[
+                            Text('Yes, you did!'),
+                            Text('Well done !'),
+                          ],
+                        ),
+                      )
+                      :SingleChildScrollView(
+                            child: ListBody(
+                              children: <Widget>[
+                                Text('hmmm not really.....', textAlign: TextAlign.center),
+                                Text('Don t give up!', textAlign: TextAlign.center),
+                              ],
+                            ),
+                          ),
+                          actions: <Widget>[
+                        TextButton(
+                          child: Text('Approve'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              child: Text('Solved?'),
+            ),
+          )
               : Slider(
             value: _sideSquare,
             min: 2,
@@ -106,64 +145,27 @@ class _Taquin extends State<Taquin> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => setState(() {
-
-          if(_inGame==true){
-            _listGameCree = false;
-          }
           _inGame=!_inGame;
         }),
-        tooltip: 'play!',
-        child: Icon(Icons.play_arrow),
+        tooltip: 'play | retry',
+        child: _inGame? Icon(Icons.replay) : Icon(Icons.play_arrow_sharp )
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
     );
+
   }
 
-  testVictory(){
-    for ( int i = 0; i<= widgetList.length; i++){
-     // widgetL
-    }
-  }
+  Function eq = const ListEquality().equals;
 
   Widget createTileWidgetFrom(Tile tile, int index) {
     return InkWell(
       child: index == tempTile1? Container(
-        padding: const EdgeInsets.all(3),
-        color: Colors.red,
-        child: tile.croppedImageTile(),
+        color: Colors.black12,
       )
           :Container(
         child: tile.croppedImageTile(),
       ),
-      onTap: () {
-        print("tapped on tile : $index  $tempTile1"); // il dit des truc bizarre quand tu essaie de cliquer à gauche genre index = temptile1 ?
-        if (_inGame && (((index - tempTile1 == _sideSquare ||
-            index - tempTile1 == -_sideSquare)) || (index - tempTile1 == 1 ||
-            (index - tempTile1 ==
-                -1)))) { // le deplacement de la tile 0 n'est possible que pour les case adjacentes
-          tempTile2 = index;
-          print("$index");
-          setState(() {
-            if (index - tempTile1 == -1){ // pour l'échange avec la tuile de gauche
-              print("ici");
-              print("$tempTile1");
-              print("$tempTile2");
-              widgetList.insert(tempTile1, widgetList.removeAt(tempTile2)); // en théorie ça marche ça, d'ailleur ça marche une fois :)
-              widgetList.insert(tempTile2, widgetList.removeAt(tempTile1-1)); // en théorie ça set à rien mais j'étais désespéré et ça case rien... en théorie :)            tempTile2 = index; //<--- si on le met pas le carré rouge bouge pas :(
-            }
-            else {
-              widgetList.insert(tempTile2, widgetList.removeAt(tempTile1));
-              if ((index - tempTile1 == _sideSquare || index - tempTile1 == -_sideSquare)){ // pour haut et bas (c'est pour éviter le décalage d'avant)
-                widgetList.insert(tempTile1, widgetList.removeAt(tempTile2-1));
-              }
-              tempTile1 = index;
-            }
-            print("tile swap");
-
-          });
-        }
-      }
     );
   }
 }
