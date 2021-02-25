@@ -115,16 +115,5 @@ List<Tile> makeTile(double _squareSide){
       list.add(new Tile(imageURL: 'https://picsum.photos/512', alignment: FractionalOffset(x, y), scale: 1/_squareSide));
     }
   }
-  /*list.add(new Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(-1,-1)));
-  list.add(new Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(-1,-0.5)));
-  list.add(new Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(-1,-1)));
-  list.add(new Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(-1,-1)));
-
-  list.add(new Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(-1,-1)));
-  list.add(new Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(-1,-1)));
-  list.add(new Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(-1,-1)));
-  list.add(new Tile(imageURL: 'https://picsum.photos/512', alignment: Alignment(-1,-1)));*/
-
-
   return list;
 }
