@@ -137,7 +137,7 @@ class _Taquin extends State<Taquin> {
         child: tile.croppedImageTile(),
       ),
       onTap: () {
-        print("tapped on tile");
+        print("tapped on tile : $index  $tempTile1"); // il dit des truc bizarre quand tu essaie de cliquer à gauche genre index = temptile1 ?
         if (_inGame && (((index - tempTile1 == _sideSquare ||
             index - tempTile1 == -_sideSquare)) || (index - tempTile1 == 1 ||
             (index - tempTile1 ==
@@ -145,9 +145,22 @@ class _Taquin extends State<Taquin> {
           tempTile2 = index;
           print("$index");
           setState(() {
-            widgetList.insert(tempTile2, widgetList.removeAt(tempTile1));
+            if (index - tempTile1 == -1){ // pour l'échange avec la tuile de gauche
+              print("ici");
+              print("$tempTile1");
+              print("$tempTile2");
+              widgetList.insert(tempTile1, widgetList.removeAt(tempTile2)); // en théorie ça marche ça, d'ailleur ça marche une fois :)
+              widgetList.insert(tempTile2, widgetList.removeAt(tempTile1-1)); // en théorie ça set à rien mais j'étais désespéré et ça case rien... en théorie :)            tempTile2 = index; //<--- si on le met pas le carré rouge bouge pas :(
+            }
+            else {
+              widgetList.insert(tempTile2, widgetList.removeAt(tempTile1));
+              if ((index - tempTile1 == _sideSquare || index - tempTile1 == -_sideSquare)){ // pour haut et bas (c'est pour éviter le décalage d'avant)
+                widgetList.insert(tempTile1, widgetList.removeAt(tempTile2-1));
+              }
+              tempTile1 = index;
+            }
             print("tile swap");
-            tempTile1 = index;
+
           });
         }
       }

@@ -115,7 +115,7 @@ class PositionedTiles2State extends State<PositionedTiles2> {
 
   swapTiles() {
     setState(() {
-      tiles.insert(2, tiles.removeAt(0));
+      tiles.insert(1, tiles.removeAt(0));
     });
   }
 }
