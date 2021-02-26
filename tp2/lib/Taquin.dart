@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
@@ -39,7 +41,7 @@ class _Taquin extends State<Taquin> {
           ),
         );
       });
-      widgetListTest = new List<Widget>.from(widgetList); // duplique la list widgetList
+      widgetListTest = new List<Widget>.from(widgetList);// duplique la list widgetList
     }
     return Scaffold(
       appBar: AppBar(
@@ -55,6 +57,7 @@ class _Taquin extends State<Taquin> {
                 print("tapOnTile $index $tempTile1");
                 if(((index - tempTile1 == _sideSquare || index - tempTile1 == -_sideSquare)) || (index-tempTile1==1 || (index-tempTile1==-1))){ // le deplacement de la tile 0 n'est possible que pour les case adjacentes
                   tempTile2 = index;
+                  compteur++;
                   setState(() {
                     widgetList.insert(tempTile2, widgetList.removeAt(tempTile1));
                     if (index - tempTile1 == _sideSquare){// pour haut et bas (c'est pour éviter le décalage d'avant)
@@ -84,9 +87,9 @@ class _Taquin extends State<Taquin> {
         shape: const CircularNotchedRectangle(),
         child: Container(
           height: 250.0,
-          child: 
+          child:
           _inGame? Container(
-            padding: const EdgeInsets.all(90),
+            padding: const EdgeInsets.all(60),
             child: OutlineButton(
               onPressed: () {
                 print(eq(widgetListTest,widgetList));
@@ -99,8 +102,8 @@ class _Taquin extends State<Taquin> {
                       content: eq(widgetListTest,widgetList)? SingleChildScrollView(
                         child: ListBody(
                           children: <Widget>[
-                            Text('Yes, you did!'),
-                            Text('Well done !'),
+                            Text('Yes, you did!', textAlign: TextAlign.center),
+                            Text('Well done !', textAlign: TextAlign.center),
                           ],
                         ),
                       )
@@ -114,7 +117,8 @@ class _Taquin extends State<Taquin> {
                           ),
                           actions: <Widget>[
                         TextButton(
-                          child: Text('Approve'),
+                          child:eq(widgetListTest,widgetList)? Text('New Game')
+                    :Text('OK!'),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
@@ -124,7 +128,7 @@ class _Taquin extends State<Taquin> {
                   },
                 );
               },
-              child: Text('Solved?'),
+              child: Text('number of move: $compteur \nClick here to check if you solved the game!', textAlign: TextAlign.center),
             ),
           )
               : Slider(
@@ -146,6 +150,10 @@ class _Taquin extends State<Taquin> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => setState(() {
           _inGame=!_inGame;
+          if(_inGame==true){
+            widgetList = shuffle(widgetList);
+          }
+          compteur = 0;
         }),
         tooltip: 'play | retry',
         child: _inGame? Icon(Icons.replay) : Icon(Icons.play_arrow_sharp )
@@ -157,6 +165,23 @@ class _Taquin extends State<Taquin> {
   }
 
   Function eq = const ListEquality().equals;
+
+  List shuffle(List items) {
+    var random = new Random();
+    // Go through all elements.
+    for (var i = items.length - 1; i > 0; i--) {
+      // Pick a pseudorandom number according to the list length
+      var n = random.nextInt(i + 1);
+      var temp = items[i];
+      items[i] = items[n];
+      items[n] = temp;
+      if(n==tempTile1){ // pour recuperer l indice de le tile Grise dans tempTile1
+        tempTile1=i;
+      }
+    }
+    return items;
+  }
+// fonction qui compare deux listes
 
   Widget createTileWidgetFrom(Tile tile, int index) {
     return InkWell(
