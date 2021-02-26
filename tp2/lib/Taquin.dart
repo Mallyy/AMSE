@@ -55,7 +55,7 @@ class _Taquin extends State<Taquin> {
               child: widgetList[index],
               onTap: (){
                 print("tapOnTile $index $tempTile1");
-                if(((index - tempTile1 == _sideSquare || index - tempTile1 == -_sideSquare)) || (index-tempTile1==1 || (index-tempTile1==-1))){ // le deplacement de la tile 0 n'est possible que pour les case adjacentes
+                if(((index - tempTile1 == _sideSquare || index - tempTile1 == -_sideSquare)) || (((index-tempTile1==1 && !( (tempTile1+1)%_sideSquare==0 && (index%_sideSquare==0))) || (index-tempTile1==-1 && !((tempTile1)%_sideSquare==0 && ((index+1)%_sideSquare==0)))) )){ // le deplacement de la tile 0 n'est possible que pour les case adjacentes
                   tempTile2 = index;
                   compteur++;
                   setState(() {
