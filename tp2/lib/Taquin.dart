@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
@@ -23,7 +22,6 @@ class _Taquin extends State<Taquin> {
   var tempTile2;
   var compteur = 0; // compteur de coup
   bool _inGame = false; // true si la partie est en cours
-  bool isWon = false; // indique si la partie est gagnée
 
   List<Widget> widgetList;// declaration de la liste des tiles jouable
   List<Widget> widgetListTest; // la liste qui sert a verifier que le jeu est gagné
@@ -55,7 +53,7 @@ class _Taquin extends State<Taquin> {
               child: widgetList[index],
               onTap: (){
                 print("tapOnTile $index $tempTile1");
-                if(((index - tempTile1 == _sideSquare || index - tempTile1 == -_sideSquare)) || (((index-tempTile1==1 && !( (tempTile1+1)%_sideSquare==0 && (index%_sideSquare==0))) || (index-tempTile1==-1 && !((tempTile1)%_sideSquare==0 && ((index+1)%_sideSquare==0)))) )){ // le deplacement de la tile 0 n'est possible que pour les case adjacentes
+                if(((index - tempTile1 == _sideSquare || index - tempTile1 == -_sideSquare)) || ( (index-tempTile1==1 && !( (tempTile1+1)%_sideSquare==0 && (index%_sideSquare==0))) || (index-tempTile1==-1 && !((tempTile1)%_sideSquare==0 && ((index+1)%_sideSquare==0))) )){ // le deplacement de la tile 0 n'est possible que pour les case adjacentes
                   tempTile2 = index;
                   compteur++;
                   setState(() {
@@ -172,6 +170,9 @@ class _Taquin extends State<Taquin> {
     for (var i = items.length - 1; i > 0; i--) {
       // Pick a pseudorandom number according to the list length
       var n = random.nextInt(i + 1);
+      while ( !(((n - i == _sideSquare || n - i == -_sideSquare)) || ( (n-i==1 && !( (i+1)%_sideSquare==0 && (n%_sideSquare==0))) || (n-i==-1 && !((i)%_sideSquare==0 && ((n+1)%_sideSquare==0))) ))){
+        n = random.nextInt(i + 1);
+      }
       var temp = items[i];
       items[i] = items[n];
       items[n] = temp;
